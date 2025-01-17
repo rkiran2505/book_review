@@ -2,32 +2,39 @@
 include('../config/db.php');
 session_start();
 
-// Ensure the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    echo "You must be logged in to delete a review.";
-    exit;
-}
+// Check if user is logged in
+if (isset($_SESSION['user_id'])) {
+    if (isset($_POST['review_id']) && is_numeric($_POST['review_id'])) {
+        $review_id = $_POST['review_id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $review_id = $_POST['review_id'];
+        // Check if the review belongs to the current user
+        $sql_check = "SELECT user_id FROM reviews WHERE id = ?";
+        $stmt_check = $conn->prepare($sql_check);
+        $stmt_check->bind_param("i", $review_id);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
 
-    // Validate the review ID
-    if ($review_id) {
-        $user_id = $_SESSION['user_id'];
+        if ($result_check->num_rows > 0) {
+            $review = $result_check->fetch_assoc();
 
-        // Delete the review from the database
-        $sql = "DELETE FROM reviews WHERE id = ? AND user_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ii", $review_id, $user_id);
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            echo "Review deleted successfully!";
+            if ($review['user_id'] == $_SESSION['user_id']) {
+                // Delete the review
+                $sql_delete = "DELETE FROM reviews WHERE id = ?";
+                $stmt_delete = $conn->prepare($sql_delete);
+                $stmt_delete->bind_param("i", $review_id);
+                if ($stmt_delete->execute()) {
+                    echo "success";
+                } else {
+                    echo "error";
+                }
+            } else {
+                echo "not_authorized";
+            }
         } else {
-            echo "Failed to delete review or review not found.";
+            echo "review_not_found";
         }
     } else {
-        echo "Invalid review ID.";
+        echo "invalid_request";
     }
 }
 ?>
