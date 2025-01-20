@@ -2,12 +2,10 @@
 include('../config/db.php');
 session_start();
 
-// Check if user is logged in
 if (isset($_SESSION['user_id'])) {
     if (isset($_POST['review_id']) && is_numeric($_POST['review_id'])) {
         $review_id = $_POST['review_id'];
 
-        // Check if the review belongs to the current user
         $sql_check = "SELECT user_id FROM reviews WHERE id = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("i", $review_id);
@@ -18,7 +16,6 @@ if (isset($_SESSION['user_id'])) {
             $review = $result_check->fetch_assoc();
 
             if ($review['user_id'] == $_SESSION['user_id']) {
-                // Delete the review
                 $sql_delete = "DELETE FROM reviews WHERE id = ?";
                 $stmt_delete = $conn->prepare($sql_delete);
                 $stmt_delete->bind_param("i", $review_id);

@@ -6,7 +6,6 @@ class User {
         $this->pdo = $pdo;
     }
 
-    // Register a new user
     public function register($username, $password) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT); // Secure password hashing
         $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
@@ -20,7 +19,7 @@ class User {
         return false;
     }
 
-    // Login user by validating username and password
+   
     public function login($username, $password) {
         $sql = "SELECT * FROM users WHERE username = :username LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
@@ -35,7 +34,7 @@ class User {
         return false;
     }
 
-    // Get user by ID
+   
     public function getUserById($id) {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->bindParam(':id', $id);

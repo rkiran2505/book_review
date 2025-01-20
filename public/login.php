@@ -1,14 +1,14 @@
 <?php
-// Start the session and include the database connection
+
 session_start();
 include('../config/db.php');
 
-// Handle login form submission
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // SQL query to fetch user data
+    
     $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
@@ -17,10 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $result->fetch_assoc();
 
     if ($user && password_verify($password, $user['password'])) {
-        // Store user data in session
+        
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
-        header('Location: book_list.php'); // Redirect to the book list page after successful login
+        header('Location: book_list.php');
+        
     } else {
         echo "<div class='alert alert-danger'>Invalid credentials!</div>";
     }
@@ -35,7 +36,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <!-- Bootstrap CSS -->
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -69,7 +70,7 @@ $conn->close();
 <div class="container">
     <div class="login-form">
         <h2 class="text-center">Login</h2>
-        <!-- Login Form -->
+        
         <form action="login.php" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -85,7 +86,7 @@ $conn->close();
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies (Optional for modals, tooltips, etc.) -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

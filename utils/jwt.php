@@ -1,12 +1,12 @@
 <?php
-define('JWT_SECRET', 'your-secret-key'); // Use a strong secret key
+define('JWT_SECRET', 'your-secret-key'); 
 
 function generateJWT($user) {
     $header = base64_encode(json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
     $payload = base64_encode(json_encode([
         'id' => $user['id'],
         'username' => $user['username'],
-        'exp' => time() + 3600 // Token expiration time (1 hour)
+        'exp' => time() + 3600 
     ]));
     $signature = hash_hmac('sha256', "$header.$payload", JWT_SECRET, true);
     $signature = base64_encode($signature);

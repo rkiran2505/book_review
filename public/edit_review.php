@@ -2,15 +2,13 @@
 include('../config/db.php');
 session_start();
 
-// Ensure the user is logged in and the review ID is passed in the query string
 if (!isset($_SESSION['user_id']) || !isset($_GET['review_id'])) {
-    header('Location: index.php'); // Redirect to homepage if not logged in or no review ID
+    header('Location: index.php'); 
     exit();
 }
 
 $review_id = $_GET['review_id'];
 
-// Fetch the review from the database
 $sql = "SELECT * FROM reviews WHERE id = ? AND user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $review_id, $_SESSION['user_id']);

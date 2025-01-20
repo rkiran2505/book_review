@@ -2,20 +2,20 @@
 include('../config/db.php');
 session_start();
 
-// Check if the user is logged in
+
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to add a review.";
     exit;
 }
 
-// Get the book_id from the URL
+
 $book_id = isset($_GET['book_id']) ? $_GET['book_id'] : 0;
 if ($book_id == 0) {
     echo "No book selected.";
     exit;
 }
 
-// Fetch book details (optional, to display on the review page)
+
 $sql_book = "SELECT title FROM books WHERE id = ?";
 $stmt = $conn->prepare($sql_book);
 $stmt->bind_param("i", $book_id);

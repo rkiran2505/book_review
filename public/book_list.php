@@ -2,7 +2,6 @@
 include('../config/db.php');
 session_start();
 
-// Fetch all books from the database
 $sql_books = "SELECT id, title, description FROM books";
 $result_books = $conn->query($sql_books);
 ?>
@@ -28,15 +27,12 @@ $result_books = $conn->query($sql_books);
                             <p class="mb-1"><?= htmlspecialchars($book['description']) ?></p>
                         </div>
                         <div>
-                            <!-- Review Details Button -->
                             <button class="btn btn-info btn-sm" onclick="showReviews(<?= $book['id'] ?>)">Review Details</button>
                             
-                            <!-- Add Review Button (only visible for logged-in users) -->
                             <?php if (isset($_SESSION['user_id'])): ?>
                                 <a href="add_review.php?book_id=<?= $book['id'] ?>" class="btn btn-primary btn-sm ml-2">Add Review</a>
                             <?php endif; ?>
                             
-                            <!-- Container for showing the review details -->
                             <div id="reviews_<?= $book['id'] ?>" style="display:none; margin-top: 10px;"></div>
                         </div>
                     </div>
@@ -49,19 +45,16 @@ $result_books = $conn->query($sql_books);
         function showReviews(bookId) {
             const reviewContainer = $('#reviews_' + bookId);
 
-            // Check if the reviews are already loaded
             if (reviewContainer.is(':visible')) {
-                reviewContainer.hide();  // Hide the reviews if already visible
+                reviewContainer.hide(); 
                 return;
             }
 
-            // AJAX request to fetch reviews for the selected book
             $.ajax({
-                url: 'get_reviews.php',  // PHP file to get reviews
+                url: 'get_reviews.php',  
                 method: 'GET',
                 data: { book_id: bookId },
                 success: function(response) {
-                    // Show the reviews inside the corresponding container
                     reviewContainer.html(response).show();
                 }
             });

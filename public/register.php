@@ -1,28 +1,28 @@
 <?php
-// Include the database connection
+
 include('../config/db.php');
 
-// Handle form submission
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
+    
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Check if any of the fields are empty
+    
     if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
         echo "All fields are required!";
         exit();
     }
 
-    // Check if the email addresses match
+    
     if ($password !== $confirm_password) {
         echo "Passwords do not match!";
         exit();
     }
 
-    // Check if the email is already registered
+    
     $sql_check_email = "SELECT * FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql_check_email);
     $stmt->bind_param("s", $email);
@@ -34,17 +34,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Hash the password
+    
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert the user into the database
+    
     $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sss", $username, $email, $password_hash);
     $stmt->execute();
     $stmt->close();
 
-    // Redirect to the login page after successful registration
+    
     header('Location: login.php');
     exit();
 }
@@ -59,7 +59,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <!-- Bootstrap CSS -->
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -93,7 +93,7 @@ $conn->close();
 <div class="container">
     <div class="register-form">
         <h2 class="text-center">Create an Account</h2>
-        <!-- Registration Form -->
+        
         <form action="register.php" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -119,7 +119,7 @@ $conn->close();
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies (Optional for modals, tooltips, etc.) -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

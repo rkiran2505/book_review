@@ -1,40 +1,37 @@
 <?php
-// Database connection credentials
-$dsn = 'mysql:host=localhost;dbname=book_reviews'; // Replace with your database host and name
-$username = 'root'; // Replace with your database username
-$password = ''; // Replace with your database password
+
+$dsn = 'mysql:host=localhost;dbname=book_reviews'; 
+$username = 'root'; 
+$password = ''; 
 $options = array(
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // To throw exceptions in case of errors
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // Default fetch mode is associative array
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, 
 );
 
 try {
-    // Create the PDO instance
+  
     $pdo = new PDO($dsn, $username, $password, $options);
-    echo "Database connection successful!"; // Optional: for debugging purposes
+    echo "Database connection successful!"; 
 } catch (PDOException $e) {
-    // Handle any errors that occur during connection
+   
     die('Connection failed: ' . $e->getMessage());
 }
 
-// Include necessary files (update the paths if needed)
-include_once('controllers/AuthController.php'); // Update path to controller
-include_once('models/User.php'); // Update path to model
-include_once('utils/jwt.php'); // Update path to utils
 
-// Pass the PDO instance to AuthController
-// $authController = new AuthController($pdo);
+include_once('controllers/AuthController.php'); 
+include_once('models/User.php');
+include_once('utils/jwt.php'); 
 
-// Example of handling a request (this part is just for illustration, customize based on your routes)
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action'])) {
     $action = $_GET['action'];
     
     if ($action === 'register') {
         $data = json_decode(file_get_contents('php://input'), true);
-        $authController->register($data); // Call register method
+        $authController->register($data); 
     } elseif ($action === 'login') {
         $data = json_decode(file_get_contents('php://input'), true);
-        $authController->login($data); // Call login method
+        $authController->login($data); 
     } else {
         echo json_encode(['message' => 'Invalid action']);
     }

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Reviews</title>
-    <!-- Bootstrap 4 CSS for styling -->
+  
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar Start -->
+ 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="index.php">Book Reviews</a>
@@ -28,4 +28,4 @@
             </div>
         </div>
     </nav>
-    <!-- Navbar End -->
+

@@ -1,4 +1,4 @@
-    <!-- Footer Start -->
+
     <footer class="bg-light text-center py-3">
         <div class="container">
             <p>&copy; 2025 Book Reviews. All rights reserved.</p>
@@ -16,9 +16,8 @@
             </ul>
         </div>
     </footer>
-    <!-- Footer End -->
 
-    <!-- Bootstrap 4 JS and dependencies -->
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
