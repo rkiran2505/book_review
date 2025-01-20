@@ -59,7 +59,8 @@ $existing_review = $result_review->fetch_assoc();
                     <textarea name="review_text" class="form-control" required><?= htmlspecialchars($existing_review['review_text']) ?></textarea>
                 </div>
 
-                <button type="submit" name="update_review" class="btn btn-primary">Update Review</button>
+                <form method="POST" action="subdirectory/update_review.php">
+
                 <button type="button" id="deleteReviewBtn" class="btn btn-danger mt-2">Delete Review</button>
             </form>
         <?php else: ?>

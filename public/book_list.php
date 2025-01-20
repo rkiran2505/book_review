@@ -30,6 +30,12 @@ $result_books = $conn->query($sql_books);
                         <div>
                             <!-- Review Details Button -->
                             <button class="btn btn-info btn-sm" onclick="showReviews(<?= $book['id'] ?>)">Review Details</button>
+                            
+                            <!-- Add Review Button (only visible for logged-in users) -->
+                            <?php if (isset($_SESSION['user_id'])): ?>
+                                <a href="add_review.php?book_id=<?= $book['id'] ?>" class="btn btn-primary btn-sm ml-2">Add Review</a>
+                            <?php endif; ?>
+                            
                             <!-- Container for showing the review details -->
                             <div id="reviews_<?= $book['id'] ?>" style="display:none; margin-top: 10px;"></div>
                         </div>
